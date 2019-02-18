@@ -20,7 +20,5 @@ aaa authentication ssh    console TACACS LOCAL
 aaa authorization command TACACS LOCAL
 aaa authorization exec authentication-server
 
-
-
 test aaa authentication TACACS username gdavitiani password ******
 
