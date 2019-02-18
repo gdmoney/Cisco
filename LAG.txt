@@ -1,0 +1,92 @@
+on         Enable Etherchannel only
+
+active     Enable LACP unconditionally
+passive    Enable LACP only if a LACP device is detected
+
+desirable  Enable PAgP unconditionally
+auto       Enable PAgP only if a PAgP device is detected
+
+===========================================================
+
+NetApp
+------
+
+interface Port-channel1
+ description << NetApp 1 - PAMN0130CS03 >>
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 1,60
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/3
+ description << NetApp 1 >>
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 1,60
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/5
+ description << NetApp 1 >>
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 1,60
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface GigabitEthernet2/0/3
+ description << NetApp 1 >>
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 1,60
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface GigabitEthernet2/0/5
+ description << NetApp 1 >>
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 1,60
+ switchport mode trunk
+ channel-group 1 mode active
+
+---
+
+interface Port-channel2
+ description << NetApp 2 - PAMN0130CS04 >>
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 1,60
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/4
+ description << NetApp 2 >>
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 1,60
+ switchport mode trunk
+ channel-group 2 mode active
+!
+interface GigabitEthernet1/0/6
+ description << NetApp 2 >>
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 1,60
+ switchport mode trunk
+ channel-group 2 mode active
+!
+interface GigabitEthernet2/0/4
+ description << NetApp 2 >>
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 1,60
+ switchport mode trunk
+ channel-group 2 mode active
+!
+interface GigabitEthernet2/0/6
+ description << NetApp 2 >>
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport trunk allowed vlan 1,60
+ switchport mode trunk
+ channel-group 2 mode active

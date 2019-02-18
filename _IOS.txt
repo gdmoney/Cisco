@@ -1,0 +1,66 @@
+
+TCP/IP
+------
+show ip sockets								// all open ports
+show tcp brief								// TcP connections
+show udp								// UDP connections
+
+
+BGP
+---
+show ip bgp regexp _100$						// prefixes originating in AS 100
+show ip bgp regexp ^100_						// prefixes reachable  via AS 100
+show ip bgp regexp _100_						// prefixes traversing     AS 100
+
+
+VPN
+---
+show crypto session brief
+show crypto isakmp sa
+show crypto ipsec sa
+show crypto engine connections active
+
+clear crypto isakmp 44806						// clears IKE SA
+clear crypto sa peer 200.212.44.58					// clears IPSec SA
+clear crypto session remote 200.212.44.58				// clears IKE and IPSec SAs
+
+debug crypto isakmp
+debug crypto ipsec
+
+
+QoS
+---
+show policy-map interface
+show mls qos maps dscp-cos
+show mls qos interface statistics
+
+
+WCCP
+----
+show ip wccp summary
+show ip wccp interfaces
+show ip wccp 91 clients							// see WCCP client IPs and packet count
+
+
+
+SNMP
+----
+show snmp mib ifmib ifindex
+
+
+Misc
+----
+service unsupported-transceiver
+show hw-module subslot 0/2 transceiver 0 status 			// optical signal levels
+show outage-rescued
+show policy-firewall sessions platform v4-source-address x.x.x.x	// sessions on ZBFW
+
+
+License
+-------
+show license udi
+show license feature
+license install flash:FOC16477115_201302120900069210.lic
+license boot module c3900e technology-package securityk9
+license boot level appxk9
+reboot

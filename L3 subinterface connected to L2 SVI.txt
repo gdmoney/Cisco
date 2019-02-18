@@ -1,0 +1,35 @@
+Switch
+======
+
+interface GigabitEthernet 2/24
+ switchport
+ switchport trunk allowed vlan 111
+ switchport mode trunk
+
+interface Vlan 111
+ ip address 1.1.1.2 255.255.255.252
+
+
+
+
+Router
+======
+
+interface GigabitEthernet 0/0
+ no ip address
+ duplex auto
+ speed auto
+
+interface GigabitEthernet 0/0.111
+ encapsulation dot1Q 111
+ ip address 1.1.1.1 255.255.255.252
+
+
+
+
+
+Router#ping 1.1.1.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 1.1.1.2, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/2 ms

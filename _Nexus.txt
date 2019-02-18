@@ -1,0 +1,120 @@
+NSAN2L3ADM1(config-vdc)# limit-resource module-type f2
+NSAN2L3ADM1(config-vdc)# allocate interface ethernet 3/13-48
+
+
+username cfnadmin password ********* role network-admin
+ip domain-name carefusion.com
+
+vrf context management
+ ip route 0.0.0.0/0 10.220.15.1
+OR 
+ip route 0.0.0.0/0 10.220.15.1   (if Mgmt interface is used for peer keepalive link)
+
+cli alias name wr copy running-config startup-config
+
+feature dot1x/fex/interface-vlan/lacp/tacacs/udld/vpc
+
+tacacs-server host 10.190.8.18 key sosa65
+tacacs-server host 10.240.98.222 key sosa65
+ 
+aaa group server tacacs+ TACACS 
+    server 10.190.8.18 
+    server 10.240.98.222 
+    use-vrf management      (if using Mgmt vrf/int to get to ACS server)
+    source-interface mgmt0
+
+aaa authentication login default group TACACS 
+aaa authentication login console group TACACS 
+aaa authorization commands default group TACACS local
+aaa authorization config-commands default group TACACS local
+
+aaa authentication login default fallback error local   (default)
+aaa authentication login console fallback error local   (default)
+
+clock timezone PST -8 0
+clock summer-time PDT
+
+ntp distribute
+ntp server 10.220.15.200 [use-vrf management]
+ntp server 10.190.1.200  [use-vrf management]
+ntp source 10.220.15.9
+OR
+ntp source-interface mgmt0
+ntp commit 
+
+port-profile type ethernet vMotion
+  switchport access vlan 10
+  switchport host
+  OR
+  spanning-tree port type edge
+  spanning-tree bpduguard enable
+  state enabled
+
+interface Ethernet1/2
+  inherit port-profile vMotion
+
+
+1. Establish peer keepalive link
+--------------------------------
+interface mgmt0
+ ip address 169.254.1.1/30
+
+2. Establish peer link
+----------------------
+interface ethernet 1/29-32
+ switchport mode trunk
+ switchport trunk allowed vlan 1,10,20
+ udld aggressive
+ channel-group 1 mode active 
+
+interface port-channel 1
+ switchport mode trunk
+ switchport trunk allowed vlan 1,10,20
+ spanning-tree port type network
+ vpn peer-link 
+
+3. Configure vPC domain
+-----------------------
+vpc domain 1
+ role priority 11111		[ low prfd,dflt 32667 ]
+ system-priority 10000		[ must match on peers ]
+ peer-keepalive destination 169.254.1.2 source 169.254.1.1 vrf management
+ peer-gateway
+
+===============================================================================
+
+***Jumbo Frames***
+
+7K
+--
+system jumbomtu 9216
+!
+interface x/x
+ mtu 9216
+
+
+5K
+--
+policy-map type network-qos JUMBO
+ class type network-qos class-default
+  mtu 9216
+!
+system qos
+ service-policy type network-qos JUMBO
+
+===============================================================================
+
+show feature
+show interface /brief/trunk
+show port-channel summary
+show vpc /role/peer-keepalive/statistics
+show lacp counters/neighbor/system-identifier
+show ntp peer-status
+
+
+copy ftp: bootflash:
+
+boot system bootflash:n5000-uk9.5.1.3.N2.1.bin
+boot kickstart bootflash:n5000-uk9-kickstart.5.1.3.N2.1.bin
+
+attach fex {100-199}

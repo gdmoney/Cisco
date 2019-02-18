@@ -1,0 +1,76 @@
+Static NAT - Bidirectional
+----------
+static (inside,out) 209.165.201.12 10.1.1.3 netmask 255.255.255.255
+
+Static Policy NAT - Bidirectional
+-----------------
+access-list NET1 extended permit ip host 10.1.2.27 209.165.200.0   255.255.255.224
+access-list NET2 extended permit ip host 10.1.2.27 209.165.201.224 255.255.255.224
+
+static (inside,out) 209.165.200.130 access-list NET1
+static (inside,out) 209.165.201.130 access-list NET2
+
+====================================================================================
+Dynamic NAT - Unidirectional
+-----------
+nat (inside) 1 10.1.1.0 255.255.255.0
+global (out) 1 209.165.201.1-209.165.201.30
+
+Dynamic Policy NAT - Unidirectional
+------------------
+access-list NET1 extended permit ip 10.10.10.128 255.255.255.224 host 172.16.16.200
+access-list NET2 extended permit ip 10.10.10.128 255.255.255.224 host 172.17.17.200
+
+nat (inside) 1 access-list NET1
+global (out) 1 172.16.16.129-172.16.16.158 netmask 255.255.255.224
+nat (inside) 2 access-list NET2
+global (out) 2 172.17.17.129-172.17.17.158 netmask 255.255.255.224
+
+====================================================================================
+Dynamic PAT - Unidirectional
+-----------
+nat (inside) 1 10.10.10.0 255.255.255.0
+global (out) 1 209.165.201.1
+
+Dynamic Policy PAT - Unidirectional
+------------------
+access-list NET1 extended permit ip 10.10.10.128 255.255.255.224 host 172.16.16.200
+access-list NET2 extended permit ip 10.10.10.128 255.255.255.224 host 172.17.17.200
+
+nat (inside) 1 access-list NET1
+global (out) 1 172.16.16.129
+nat (inside) 2 access-list NET2
+global (out) 2 172.17.17.129
+
+====================================================================================
+Static PAT
+----------
+static (inside, out) tcp 10.1.2.14 telnet 10.1.1.15 telnet netmask 255.255.255.255
+
+Static Policy PAT
+-----------------
+access-list TELNET permit tcp host 10.1.1.15 eq telnet 10.1.3.0 255.255.255.0
+
+static (inside,out) tcp 10.1.2.14 telnet access-list TELNET
+
+====================================================================================
+Dynamic Identity NAT - Unidirectional
+--------------------
+nat (inside) 0 10.10.10.128 255.255.255.192
+
+Static Identity NAT - Bidirectional
+-------------------
+static (inside,out) 10.1.1.3 10.1.1.3 netmask 255.255.255.255
+
+Static Identity Policy NAT
+--------------------------
+access-list NAT extended permit ip 192.168.1.0 255.255.255.0 172.31.1.0 255.255.255.0
+
+static (inside, out) 192.168.1.0 access-list NAT
+
+NAT Exemption - Bidirectional
+-------------
+access-list NONAT extended permit ip 10.10.10.128 255.255.255.240 172.16.16.0 255.255.255.0
+
+nat (inside) 0 access-list NONAT
+ 

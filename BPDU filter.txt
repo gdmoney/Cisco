@@ -1,0 +1,27 @@
+Notes
+-----
+- connecting Cisco switches to Brocade
+- otherwise default config on the Cisco switches
+- no changes on the Brocade switch
+
+
+
+
+uplink switch connected to Brocade
+----------------------------------
+spanning-tree portfast bpdufilter default 
+
+int range gig 1/0/1-24
+ spanning-tree portfast
+
+interface GigabitEthernet 1/0/24
+ desc UPLINK
+ spanning-tree bpdufilter enable
+
+
+
+
+downstream switches connected to Cisco
+--------------------------------------
+int range gig 1/0/1-24
+ spanning-tree portfast

@@ -1,0 +1,69 @@
+Before
+------
+
+ip route 0.0.0.0 0.0.0.0 179.191.91.101 track 10
+
+ip route 12.25.160.236  255.255.255.255 179.191.91.101
+ip route 12.47.158.246  255.255.255.255 179.191.91.101
+ip route 12.187.184.187 255.255.255.255 179.191.91.101
+
+track 10 list boolean or
+ object 1				//not part of the original config
+ object 20
+ object 30
+ object 40
+
+track 20 ip sla 20 reachability
+ delay down 12 up 180			//changed to down 10 up 10 in the new config
+!
+track 30 ip sla 30 reachability
+ delay down 12 up 180			//changed to down 10 up 10 in the new config
+!
+track 40 ip sla 40 reachability
+ delay down 12 up 180			//changed to down 10 up 10 in the new config
+
+
+ip sla 20
+ icmp-echo 12.25.160.236 source-ip 179.191.91.102
+  threshold 250
+  timeout 250
+  frequency 5
+ip sla schedule 20 life forever start-time now
+
+ip sla 30
+ icmp-echo 12.187.184.187 source-ip 179.191.91.102
+  threshold 250
+  timeout 250
+  frequency 5
+ip sla schedule 30 life forever start-time now
+
+ip sla 40
+ icmp-echo 12.47.158.246 source-ip 179.191.91.102
+  threshold 250
+  timeout 250
+  frequency 10
+ip sla schedule 40 life forever start-time now
+
+========================================================
+
+After
+-----
+
+ip sla 1
+ icmp-echo 8.8.8.8 source-ip 179.191.91.102
+  threshold 250
+  timeout 250
+  frequency 5
+
+ip sla schedule 1 life forever start-time now
+
+track 1 ip sla 1 reachability
+ delay down 10 up 10
+
+ip route 0.0.0.0 0.0.0.0         179.191.91.101 track 1
+ip route 8.8.8.8 255.255.255.255 179.191.91.101
+
+========================================================
+
+show ip sla summary/config/statistics
+show track ip sla

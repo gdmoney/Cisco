@@ -1,0 +1,235 @@
+OUTSIDE > INSIDE NAT + ACL
+--------------------------
+
+interface Ethernet0/0
+ nameif outside
+ security-level 0
+ ip address 204.193.50.36 255.255.255.240 standby 204.193.50.37 
+!
+interface Ethernet0/1
+ nameif inside
+ security-level 100
+ ip address 143.98.124.1 255.255.255.0 standby 143.98.124.2 
+
+object-group service External_http_https
+ service-object tcp destination eq www 
+ service-object tcp destination eq https 
+
+object network Bomgar_Int
+ host 143.98.124.129
+object network Bomgar_ext
+ host 204.193.50.46
+
+object network Bomgar_Int
+ nat (inside,outside) static Bomgar_ext
+
+access-list outside_access_in extended permit object-group External_http_https any object Bomgar_Int
+access-group outside_access_in in interface outside
+
+
+*** Outside interface ACL destination is now the INTERNAL/REAL IP address ***
+
+
+===============================================================================================
+
+OUTSIDE > DMZ NAT + ACL
+-----------------------
+
+interface GigabitEthernet0/2
+ nameif Inside-DMZ-Server
+ security-level 10
+ ip address 10.190.25.1 255.255.255.0 standby 10.190.25.2 
+!             
+interface GigabitEthernet0/3
+ nameif Outside_Internet_DMZ_VPN
+ security-level 0
+ ip address 204.193.61.10 255.255.254.0 standby 204.193.61.11 
+
+object network SecModCloud01_Int
+ host 10.190.24.71
+object network SecModCloud01_Ext
+ host 204.193.61.220
+
+object network SecModCloud01_Int
+ nat (Inside-DMZ-Server,Outside_Internet_DMZ_VPN) static SecModCloud01_Ext
+
+access-list Outside_Internet_DMZ_VPN_access_in extended permit tcp any object SecModCloud01_Int object-group HTTP-HTTPS
+!
+access-group outside_access_in in interface Outside_Internet_DMZ_VPN
+
+=============================================================================================
+
+DMZ > INSIDE ACL
+----------------
+
+interface GigabitEthernet0/2
+ nameif Inside-DMZ-Server
+ security-level 10
+ ip address 10.190.25.1 255.255.255.0 standby 10.190.25.2 
+
+object network PWIL0698SYCLO01 
+ host 10.190.24.20
+object network PWIL0698SYCLO02 
+ host 10.190.24.21
+
+object network CPPCI01
+ host 10.190.21.78
+
+object-group network DMZ-Syclo-Servers
+ network-object object PWIL0698SYCLO01
+ network-object object PWIL0698SYCLO02
+
+object-group service Syclo-SAP tcp
+ port-object eq 3332
+ port-object eq 3342
+ port-object eq 3352
+ port-object eq 3362
+      
+access-list  Inside-DMZ-Server_access_in extended permit tcp object-group DMZ-Syclo-Servers object CPPCI01 object-group Syclo-SAP 
+!
+access-group Inside-DMZ-Server_access_in in interface Inside-DMZ-Server
+
+============================================================================================
+
+OUTSIDE => DMZ ACL + NAT; DMZ => INSIDE ACL
+-----------------------------------------
+
+interface GigabitEthernet0/1
+ nameif Inside-Trunk-CFN-BUN
+ security-level 100
+ ip address 10.190.0.201 255.255.255.224 standby 10.190.0.202 
+
+interface GigabitEthernet0/2
+ nameif Inside-DMZ-Server
+ security-level 10
+ ip address 10.190.25.1 255.255.255.0 standby 10.190.25.2 
+!             
+interface GigabitEthernet0/3
+ nameif Outside_Internet_DMZ_VPN
+ security-level 0
+ ip address 204.193.61.10 255.255.254.0 standby 204.193.61.11 
+
+object network SCCM_Int
+ host 10.190.11.128
+object network SCCM_VIP
+ host 10.190.25.57
+object network SCCM_Ext
+ host 204.193.61.222
+
+object network SCCM_VIP
+ nat (Inside-DMZ-Server,Outside_Internet_DMZ_VPN) static SCCM_Ext
+
+access-list Outside_Internet_DMZ_VPN_access_in extended permit tcp any object SCCM_VIP eq https
+!
+access-list Inside-DMZ-Server_access_in        extended permit tcp object NCSC1LBA1-MGT object SCCM_Int eq https 
+
+-------------------------------------------------
+
+object network Airwatch_Int
+ host 10.190.10.108
+object network Airwatch_DMZ
+ host 10.190.24.32
+object network Airwatch_Ext
+ host 204.193.61.226
+
+object network Airwatch_DMZ
+ nat (Inside-DMZ-Server,Outside_Internet_DMZ_VPN) static Airwatch_Ext
+
+object-group service Airwatch tcp
+        port-object eq 2010
+        port-object eq 2020
+        port-object eq https
+
+access-list Outside_Internet_DMZ_VPN_access_in extended permit tcp any object Airwatch_DMZ object-group Airwatch
+
+access-list Inside-DMZ-Server_access_in        extended permit tcp object Airwatch_DMZ object Airwatch_Int object-group Airwatch
+
+-------------------------------------------------
+*** existing ***
+
+object network ChiNetScal-HB
+ host 10.190.25.63
+!
+object network ChiNetScal-HB
+ nat (Inside-DMZ-Server,Outside_Internet_DMZ_VPN) static 204.193.61.163
+!
+access-list Outside_Internet_DMZ_VPN_access_in extended permit tcp object HoeNetScal-HB object ChiNetScal-HB object-group NetScalerHB-tcp
+
+
+object network is-team.carefusion_Int
+ host 10.190.25.64
+!
+object network is-team.carefusion.com_Ext
+ host 204.193.61.224
+!
+object network is-team.carefusion_Int
+ nat (Inside-DMZ-Server,Outside_Internet_DMZ_VPN) static is-team.carefusion.com_Ext
+!
+access-list Outside_Internet_DMZ_VPN_access_in extended permit tcp any object-group Web-Servers-HTTP-HTTPS object-group HTTP-HTTPS
+
+
+object network ChiNetScal-DNS
+ host 10.190.25.62
+
+
+*** new ***
+
+object-group network Web-Servers-SSL-Only
+ network-object object ChiNetScal-HB
+
+object service 8443
+ service tcp destination eq 8443
+
+object-group service HTTP-HTTPS-8443
+ service-object object 8443
+ service-object tcp destination eq http
+ service-object tcp destination eq https
+
+access-list Outside_Internet_DMZ_VPN_access_in line 10 extended permit object-group HTTP-HTTPS-8443 any object is-team.carefusion_Int 
+
+
+object-group network DM_INLINE_NETWORK_1
+ network-object object PWIL0690INF01
+ network-object object PWIL0690INF02
+object-group network DM_INLINE_NETWORK_2
+ network-object object PWIL0690INF01
+ network-object object PWIL0690INF02
+object-group network DM_INLINE_NETWORK_3
+ network-object host 10.190.24.81
+ network-object host 10.190.25.61
+object-group service DM_INLINE_SERVICE_1
+ service-object tcp-udp destination eq domain
+ service-object udp destination eq ntp
+object-group service DM_INLINE_TCP_2 tcp
+ port-object eq ldap
+ port-object eq ldaps
+
+access-list Inside-DMZ-Server_access_in line 72 extended permit tcp object-group DM_INLINE_NETWORK_3 object-group DM_INLINE_NETWORK_1 object-group DM_INLINE_TCP_2 
+
+access-list Inside-DMZ-Server_access_in line 74 extended permit object-group DM_INLINE_SERVICE_1 host 10.190.25.62 object-group DM_INLINE_NETWORK_2 
+
+access-list Inside-DMZ-Server_access_in line 76 extended permit tcp host 10.190.25.62 object appcontrollerqa eq https 
+
+access-list Inside-DMZ-Server_access_in line 77 extended permit tcp host 10.190.24.81 host 10.190.11.153 eq https 
+
+
+=============================================================================================
+
+OUTSIDE > DMZ ACL + NAT; DMZ > INSIDE ACL
+-----------------------------------------
+
+object network eforms_Ext
+ host 204.193.61.225
+ description eforms.carefusion.com
+object network eforms_Int
+ host 10.190.24.28
+ description eforms.carefusion.com
+object network eforms_VIP
+ host 10.190.25.65
+ description eforms.carefusion.com
+ nat (Inside-DMZ-Server,Outside_Internet_DMZ_VPN) static eforms_Ext
+
+object-group network Web-Servers-HTTP-HTTPS
+ network-object object eforms_VIP
+
+access-list Inside-DMZ-Server_access_in extended permit tcp object NCSC1LBA1-MGT object eforms_Int object-group HTTP-HTTPS 

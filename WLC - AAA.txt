@@ -1,0 +1,41 @@
+SNMP
+----
+Version: v3
+User: primencs
+Pswd: primencsprimencs
+
+=====
+
+AAA
+---
+config tacacs auth add 1 10.190.8.18 49 ascii sosa65
+config tacacs athr add 1 10.190.8.18 49 ascii sosa65
+config tacacs acct add 1 10.190.8.18 49 ascii sosa65
+
+config tacacs auth add 2 10.240.98.222 49 ascii sosa65
+config tacacs athr add 2 10.240.98.222 49 ascii sosa65
+config tacacs acct add 2 10.240.98.222 49 ascii sosa65
+
+config aaa auth mgmt tacacs local
+
+=====
+
+show aaa auth
+
+show tacacs summary
+show tacacs auth statistics
+show tacacs athr statistics
+
+debug aaa tacacs enable
+
+=====
+
+config tacacs auth delete 1
+config tacacs auth delete 2
+
+config tacacs athr delete 1
+config tacacs athr delete 2
+
+=====
+
+show msglog

@@ -1,0 +1,88 @@
+Local Only
+----------
+username cfnadmin privilege 15 secret Blind5173
+!
+aaa new-model
+!       
+aaa authentication login default local
+aaa authorization console
+aaa authorization exec default local if-authenticated 
+
+
+BofI
+----
+enable secret Bofi2017!
+username netadmin privilege 15 secret Bofi2017!
+!
+aaa new-model
+!
+aaa authentication login  default group tacacs+ local
+aaa authentication enable default group tacacs+ enable
+!
+aaa authorization config-commands
+aaa authorization console
+aaa authorization exec default group tacacs+ local  if-authenticated
+aaa authorization commands 1  default group tacacs+ if-authenticated
+aaa authorization commands 15 default group tacacs+ local if-authenticated
+!
+aaa accounting update newinfo
+aaa accounting send stop-record authentication failure
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+aaa accounting network default start-stop group tacacs+
+aaa accounting connection default start-stop group tacacs+
+aaa accounting system default start-stop group tacacs+
+
+
+Intuit
+------
+enable secret 5 $1$B9Kt$6ejucv1qSstnuFll/nVe2.
+!
+username siteadmin privilege 15 secret 5 $1$waqR$B2D5F9uKMz5XYtCyCw/wE.
+!
+aaa new-model
+!
+aaa authentication login default group tacacs+ enable
+aaa authentication enable default group tacacs+ enable
+!
+aaa authorization config-commands
+aaa authorization exec default group tacacs+ if-authenticated 
+!
+aaa accounting update newinfo
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+aaa accounting network default start-stop group tacacs+
+aaa accounting connection default stop-only group tacacs+
+aaa accounting system default start-stop group tacacs+
+!
+tacacs-server host 10.158.34.53 timeout 5
+tacacs-server host 10.180.194.124 timeout 5
+tacacs-server key 7 01120F30535E07060B
+
+
+CFN
+---
+username cfnadmin privilege 15 secret Blind5173
+!
+aaa new-model
+!
+aaa authentication login default group tacacs+ local
+aaa authentication enable default group tacacs+ enable
+aaa authentication ppp default group tacacs+
+!
+aaa authorization exec default group tacacs+ local if-authenticated 
+aaa authorization commands 15 default group tacacs+ local 
+aaa authorization network default group tacacs+ local 
+!
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+aaa accounting network default start-stop group tacacs+
+aaa accounting connection default start-stop group tacacs+
+aaa accounting system default start-stop group tacacs+
+!
+tacacs-server host 10.190.8.18
+tacacs-server host 10.240.98.222
+tacacs-server key sosa65

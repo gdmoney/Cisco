@@ -1,0 +1,5 @@
+
+Device Mgmt > Users/AAA > AAA Access > Authorization > Set ASDM Defined User Roles > Yes
+
+aaa authorization command LOCAL
+username ecooper password Bofi2017! pri 5

@@ -1,0 +1,32 @@
+shell processing full
+shell trigger AVAYA_IP_PHONE This is for an avaya IP phone
+
+lldp run
+
+macro auto execute AVAYA_IP_PHONE  {
+ if [[ $LINKUP == YES ]]
+  then conf t
+  interface $INTERFACE
+  macro description $TRIGGER
+  description ***** AVAYA PHONE *****
+  switchport access vlan 100
+  switchport mode access
+  switchport voice vlan 200
+  exit
+ fi
+ if [[ $LINKUP == NO ]]
+  then conf t
+  interface $INTERFACE
+  no macro description $TRIGGER
+  no description ***** no more avaya phone *****
+  no switchport access vlan 100
+  no switchport mode access
+  no switchport voice vlan 200
+  exit
+ fi
+ end
+
+macro auto trigger AVAYA_IP_PHONE
+ profile Avaya-IP-Phone
+
+macro auto global processing

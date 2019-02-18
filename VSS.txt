@@ -1,0 +1,63 @@
+- VSS configurations in the startup-config file must match on both chassis
+- VSS mode does not support supervisor engine redundancy within a chassis
+- "no platform qos channel-consistency" is automatically applied to the port channels. Do not remove it
+
+
+Switch 1
+--------
+
+switch virtual domain 100
+ switch 1
+ switch 1 priority 200
+ 
+interface Port-channel 10
+ switch virtual link 1
+ no shut
+ no switchport
+ no ip address
+ 
+interface range TenGigabit 5/4 - 5
+ no switchport
+ no ip address
+ no cdp enable
+ channel-group 10 mode on
+
+
+# switch convert mode virtual
+
+
+
+Switch 2
+--------
+
+switch virtual domain 100
+ switch 2
+ switch 1 priority 200
+
+interface Port-channel 20
+ switch virtual link 2
+ no shut
+ no switchport
+ no ip address
+
+interface range TenGigabit 5/4 - 5
+ no switchport
+ no ip address
+ no cdp enable
+ channel-group 20 mode on
+
+
+# switch convert mode virtual
+
+
+
+VSS
+---
+
+switch virtual domain 100
+ mac-address use-virtual
+
+
+# redundancy force-switchover
+# redundancy reload peer
+# redundancy reload shelf

@@ -1,0 +1,89 @@
+config t
+access-list 64 permit 10.240.98.210
+snmp-server community Asi4tCiUanc RO 64
+end
+wr
+
+
+snmp-server host inside 10.240.98.210 community Asi4tCiUanc version 2c
+
+
+ip access-list WUG
+ permit ip any 10.240.98.210/32
+ permit ip 10.240.98.210/32 any
+
+snmp-server community Asi4tCiUanc ro
+snmp-server community Asi4tCiUanc use-acl WUG
+snmp-server host 10.240.98.210 traps version 2c WUG
+snmp-server host 10.240.98.210 source-interface Vlan2
+
+
+ip access-list WUG
+ permit ip any 10.240.98.210/32
+ permit ip 10.240.98.210/32 any
+
+snmp-server community Asi4tCiUanc ro
+snmp-server community Asi4tCiUanc use-acl WUG
+snmp-server host 10.240.98.210 traps version 2c WUG
+snmp-server host 10.240.98.210 use-vrf management
+snmp-server host 10.240.98.210 source-interface mgmt0
+
+
+IOS
+---
+
+access-list 40 permit 192.168.218.2
+access-list 40 permit 192.168.218.3
+access-list 40 permit 192.168.218.4
+access-list 40 permit 192.168.218.131
+
+snmp-server community VITAL RO 40
+
+
+access-list 60 permit 10.190.9.122 0.0.0.1
+
+snmp-server community 0p71mu54u70 rw 60
+
+
+NXOS
+----
+
+ip access-list VITAL
+  10 permit ip any 192.168.218.2/32 
+  20 permit ip any 192.168.218.3/32 
+  30 permit ip any 192.168.218.4/32 
+  40 permit ip any 192.168.218.131/32 
+  50 permit ip 192.168.218.2/32 any 
+  60 permit ip 192.168.218.3/32 any 
+  70 permit ip 192.168.218.4/32 any 
+  80 permit ip 192.168.218.131/32 any 
+
+snmp-server community VITAL group network-operator
+snmp-server community VITAL use-acl VITAL
+
+snmp-server host 192.168.218.2 traps version 2c VITAL 
+snmp-server host 192.168.218.2 use-vrf management
+snmp-server host 192.168.218.2 source-interface mgmt0
+
+snmp-server host 192.168.218.3 traps version 2c VITAL 
+snmp-server host 192.168.218.3 use-vrf management
+snmp-server host 192.168.218.3 source-interface mgmt0
+
+snmp-server host 192.168.218.4 traps version 2c VITAL 
+snmp-server host 192.168.218.4 use-vrf management
+snmp-server host 192.168.218.4 source-interface mgmt0
+
+snmp-server host 192.168.218.131 traps version 2c VITAL 
+snmp-server host 192.168.218.131 use-vrf management
+snmp-server host 192.168.218.131 source-interface mgmt0
+
+
+
+ASA
+---
+
+snmp-server host inside 10.190.9.123 community 0p71mu54u70 version 2c
+
+OR
+
+snmp-server host dmz 10.190.9.123 community 0p71mu54u70 version 2c

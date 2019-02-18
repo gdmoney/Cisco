@@ -1,0 +1,105 @@
+show sysinfo
+show wlan
+show interface summary | detailed NAME
+show port summary
+show network summary
+show route summary
+show time
+show debug
+show redundancy summary
+show msglog
+
+config wlan enable/disable # | all
+
+config interface address service-port 192.168.255.1 255.255.255.0
+config interface address management 10.191.65.254 255.255.255.0 10.191.65.1
+config interface address redundancy-management x.x.x.x
+config interface port management 8
+config interface vlan management 0	(if switch port set to access)
+
+config route add 10.0.0.0 255.0.0.0 10.191.65.1		(for SP IP access from diff subnet)
+
+config network ap-discovery nat-ip-only disable		(enable WLC to respond on both IPs)
+config network ssh/webmode/secureweb enable/disable
+
+config time ntp server 10.220.15.200
+config time timezone delta -8 -0
+
+config sysname/prompt
+
+debug client ma:ca:dd:re:ss:ss
+debug aaa all enable
+debug aaa tacacs enable
+
+transfer download ...
+
+------------------------------------------------
+*PREDOWNLOAD*
+show boot
+config ap image predownload primary all
+show ap image all
+------------------------------------------------
+
+- INTERFACES		
+- RADIUS	
+- TACACS	
+- SNMP		
+- NTP/Timezone	
+- SYSLOG	
+- WLANS	
+
+- HA
+  - identical code
+  - Redundancy Mgmt IP addresses
+  - Connect RP cable
+  - Enable HA (SSO) on both
+
+  - config port adminmode all enable
+
+  - service port is only active on the standby WLC
+
+
+
+- to enable eval license
+
+Management > Software Activation > base-ap-count > Priority = High
+
+
+IMM (7510 only)
+---
+IP addr:  192.168.70.125
+User:	  USERID
+Pswd:	  PASSW0RD
+
+
+CFN WLANs
+---------
+level2
+CTSl3v3l2!
+
+Carefusion BOD
+ALAR1S303 
+
+barcode
+b@Rc0dE1
+
+level1
+$up3rB@rc0d3m@ch1ne
+
+NonProd	(Reston)
+CWA$Roxx
+
+Medegen9090 (Ontario)
+Med930Ont
+
+BarC0de   (Palm Springs)
+L3tmeinn02
+
+level4 (El Paso)
+Th3W@r3H0us3L1ft
+
+MBI	(TJ)
+Tijuana,MBI
+
+BD Radius shared key
+<:0r4ng3:>

@@ -1,0 +1,48 @@
+CREATE
+======
+- power off and connect the stacking cables
+
+Master
+------
+switch 1 priority 15
+
+switch # provision switch_PID		//optional
+
+
+Slave
+-----
+- write erase
+
+- delete config.text and vlan.dat files
+
+)#switch 1 renumber #   (# its going to be in the stack)
+
+)#switch 1 priority 1
+
+
+
+UPGRADE
+=======
+copy tftp: flash:
+
+verify /md5 flash:/c3750-ipservicesk9-mz.122-55.SE8.bin
+
+copy flash:/c3750-ipservicesk9-mz.122-55.SE8.bin flash2:
+
+boot system switch all flash:/c3750-ipservicesk9-mz.122-55.SE8.bin
+
+reload
+
+
+
+VERIFY
+======
+show switch ...
+
+show boot
+
+show platform stack ...
+
+reload slot #
+
+session #

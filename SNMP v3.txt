@@ -1,0 +1,25 @@
+snmp-server user CW SSA v3 auth md5 ssasnmpssasnmp
+snmp-server user PRTG SSA v3 auth md5 ssasnmpssasnmp
+snmp-server user NetFlow SSA v3 auth md5 ssasnmpssasnmp
+snmp-server user campususer campusgroup v3 auth md5 ssasnmpssasnmp
+!
+snmp-server host 172.29.64.91 version 3 auth CW
+snmp-server host 198.199.3.102 version 3 auth PRTG
+snmp-server host 172.29.66.166 version 3 auth NetFlow
+!
+snmp-server group SSA v3 auth write v1default
+snmp-server group campusgroup v3 auth read campusview write campusview
+
+============================================================================
+
+
+snmp-server group WUGgroup v3 auth write v1default
+
+snmp-server user WUGuser WUGgroup v3 auth sha aQloeW9y
+
+snmp-server host 10.240.98.210 version 3 auth WUGuser
+
+
+
+
+

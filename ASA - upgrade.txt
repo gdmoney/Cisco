@@ -1,0 +1,30 @@
+1.  backup config
+2.  copy new ASA and ASDM images to both units
+3.  verify MD5 checksum
+4.  set the new ASDM image on PRI and save
+5.  set the new ASA image on SEC, save and reboot
+6.  once the SEC is back up, validate that failover status is "standby ready"
+7.  set the new ASA image on PRI and save
+8.  on PRI, issue: "no failover active"
+9.  reboot PRI
+10. once the PRI is back up, validate that failover status is "standby ready"
+11. on SEC, issue: "no failover active" to make PRI active again
+12. delete old ASA and ASDM images on both units (optional)
+
+=================================================================================
+
+1.
+copy running-config ftp://cisco:cisco@10.220.130.222
+
+2.
+copy ftp://cisco:cisco@10.220.130.222/asa915-k8.bin disk0:/asa915-k8.bin
+copy ftp://cisco:cisco@10.220.130.222/asdm-731-101.bin disk0:/asdm-731-101.bin
+
+3.
+verify /md5 disk0:asa915-k8.bin
+
+4.
+asdm image disk0:/asdm-731-101.bin
+
+5.
+boot system disk0:/asa915-k8.bin

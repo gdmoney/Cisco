@@ -1,0 +1,25 @@
+SD-Protected-FW-01
+------------------
+
+interface port-channel 2.104
+ dhcprelay server 10.150.2.100
+ dhcprelay server 10.150.2.101
+
+interface port-channel 2.108
+ dhcprelay server 10.150.2.100
+ dhcprelay server 10.150.2.101
+
+interface port-channel 2.109
+ dhcprelay server 10.150.2.100
+ dhcprelay server 10.150.2.101
+
+interface port-channel 2.113
+ dhcprelay server 10.150.2.100
+ dhcprelay server 10.150.2.101
+
+interface port-channel 2.115
+ dhcprelay server 10.150.2.100
+ dhcprelay server 10.150.2.101
+
+
+dhcprelay enable vlan101

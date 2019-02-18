@@ -1,0 +1,54 @@
+*** All Flow Control settings off in SCRT***
+
+---------------------------------------------------
+
+user:	cisco
+pswd:	Cisco
+
+---------------------------------------------------
+
+clear capwap private-config
+
+capwap ap primary-base NCSC1WLCFlex 10.190.1.31
+
+capwap ap primary-base NSAN2WLC01 10.220.15.12
+capwap ap primary-base NSAN2WLCOE 10.220.5.200
+capwap ap primary-base NSAN2WLCOE 207.114.139.250
+
+capwap ap primary-base NVRH1WLC01 10.191.33.11
+
+ -OR-
+
+capwap ap controller ip address 10.220.15.12
+
+---------------------------------------------------
+
+show capwap ip config
+show capwap client config		// to check AP mode
+
+test mesh mode local			// mode may be mesh if AP is unable to join
+capwap ap mode local
+
+capwap ap ip address 10.7.48.8 255.255.255.0
+capwap ap ip default-gateway 10.7.48.3
+capwap ap hostname <name>
+
+
+
+---------------------------------------------------
+
+CISCO-CAPWAP-CONTROLLER.carefusion.com
+
+---------------------------------------------------
+
+option 43 hex f104.0abf.210b	(10.191.33.11)
+
+
+show interface summary 
+config interface delete nstm-level3
+
+---------------------------------------------------
+
+convert from standalone to lightweight
+
+#archive download-sw /overwrite /reload tftp://10.220.130.222/c1240-rcvk9w8-tar.124-25e.JAP1.tar

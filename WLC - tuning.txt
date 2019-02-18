@@ -1,0 +1,56 @@
+> Controller > General  > Fast SSID change: Enabled
+
+	     > Advanced > DHCP > Enabled DHCP Proxy: Uncheck	*DHCP server IPs not needed on Controller Interfaces*
+
+
+> Wireless > 802.11a/n/ac > Network > Data Rates > 6, 9: Disable
+
+		          > CleanAir: Enabled
+
+		          > RRM > DCA > Avoid Cisco AP load: check
+
+			              > Event Driven RRM: check
+
+				      > Extended UNII-2 channels: check
+
+				      > Channel Width: 40MHz
+
+				> General > Channel List: All Channels
+
+	   > 802.11b/g/n  > Network > Data Rates > 1, 2, 5.5, 6: Disable
+
+		          > CleanAir: Enabled
+
+		          > RRM > DCA > Avoid Cisco AP load: check
+
+				      > Event Driven RRM: check
+
+				> General > Channel List: All Channels
+
+	   > QoS > Profiles > Platinum > Profiles Wired QoS Protocol > Protocol Type: 802.1p, Tag 6
+
+	   > Access Points > Global Configuratioin > AP Failover Priority: Enable
+
+						   > AP Retransmit Config Parametsrs: check both
+
+
+> WLAN > level3 > Advanced > Enable Sessin Timeout: 28800
+
+ 			   > DHCP Addr. Assignment Required: check
+
+			   > Loan Balancing and Band Select: check both (uncheck for VoIP WLANs)
+
+			   > Aironet IE: uncheck
+
+			   > Local Client Profiling: check both
+
+			   > Client Exclusion: 180 if using ISE
+
+		> Security > Layer 2 > WPA2/AES
+
+		> QoS > Application Visibility: check
+
+
+> Security > Wireless Protection Policies > Rogue Policies > General > Rogue Detection Sec Level: Low
+
+	   > AAA > RADIUS > Authentication > 1 > Server Timeout: 5 seconds

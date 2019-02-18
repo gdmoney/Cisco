@@ -1,0 +1,29 @@
+ip flow-export source Serial0/0/0
+ip flow-export destination 10.191.80.51 2055
+ip flow-export version 9
+ip flow-cache timeout active 1
+ip flow-cache timeout inactive 15
+
+interface Serial0/0/0
+ ip flow ingress
+ ip flow egress
+
+---------------------------------------------------------
+
+snmp-server user PRTG CFN v3 auth md5 cfnsnmpcfnsnmp
+snmp-server host 10.191.80.51 version 3 auth PRTG
+snmp-server group CFN v3 auth write v1default
+
+
+
+
+
+
+
+
+
+
+
+
+
+

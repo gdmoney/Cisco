@@ -1,0 +1,17 @@
+show feature license
+
+// if appxk9 is not enabled, do step 0
+
+0. license boot level appxk9
+   write mem
+   reload
+
+
+1. int gig x/x/x
+    bfd interval 300 min_rx 300 multiplier 3
+2. router bgp xxxxx
+    neighbor x.x.x.x fall-over bfd
+3. write mem
+
+
+show bfd nei det

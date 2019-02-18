@@ -1,0 +1,26 @@
+
+username cfnadmin password BAOeXDCwMe582EsU encrypted privilege 15
+
+http server enable
+http 10.191.0.0 255.255.0.0 inside
+http 10.220.0.0 255.255.0.0 inside
+ssh  10.0.0.0   255.0.0.0 inside
+
+aaa-server TACACS protocol tacacs+
+aaa-server TACACS (inside) host 10.190.8.18
+ key *****
+aaa-server TACACS (inside) host 10.240.98.222
+ key *****
+
+aaa authentication enable console TACACS LOCAL
+aaa authentication http   console TACACS LOCAL
+aaa authentication serial console TACACS LOCAL
+aaa authentication ssh    console TACACS LOCAL
+
+aaa authorization command TACACS LOCAL
+aaa authorization exec authentication-server
+
+
+
+test aaa authentication TACACS username gdavitiani password ******
+

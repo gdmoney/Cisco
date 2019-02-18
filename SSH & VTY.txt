@@ -1,0 +1,54 @@
+no service config
+no service pad
+no service tcp-small-servers
+no service udp-small-servers
+no service finger
+no ip domain-lookup
+no ip icmp redirect
+no ip source-route
+no ip http server
+!
+service timestamps debug datetime localtime msec
+service timestamps log datetime localtime msec
+service password-encryption
+service tcp-keepalives-in
+service tcp-keepalives-out
+service sequence-numbers
+!
+username cfnadmin privilege 15 secret Blind5173
+!
+aaa new-model
+!
+aaa authentication login default local
+aaa authorization console
+aaa authorization exec default local if-authenticated
+!
+login block-for 60 attempts 2 within 10
+login delay 10
+!
+ip domain-name carefusion.com
+!
+crypto key generate rsa
+!
+ip access-list standard TerminalAccess
+ permit 207.114.139.0 0.0.0.255
+ permit 204.193.60.0 0.0.3.255
+ deny   any
+!
+line con 0
+ transport output ssh
+!
+line vty 0 15
+ access-class TerminalAccess in
+ transport input ssh
+ transport output ssh
+
+archive
+ log config
+  logging enable
+  logging size 200
+  notify syslog contenttype plaintext
+  hidekeys
+ path flash:archived-config
+ write-memory
+ time-period 1440

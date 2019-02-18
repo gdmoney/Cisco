@@ -1,0 +1,49 @@
+- avoid NAT
+- use inboung ACLs only
+- use descriptions and remarks: date, initials, ticket #, etc
+- use object-groups
+- allow ICMP from inside and enable ICMP inspection
+- put the most matched ACLs at the top
+
+========================================================
+
+object network OBJ_x.x.x.x
+ host x.x.x.x
+ description SERVER01
+
+========================================================
+
+policy-map global_policy
+ class inspection_default
+  inspect icmp 
+
+service-policy global_policy global
+
+   ==OR==
+
+policy-map global_policy
+ class CM_ICMP
+  inspect icmp
+
+class-map CM_ICMP
+ match access-list ICMP
+
+access-list ICMP extended permit icmp any any
+
+service-policy global_policy global
+
+   ==OR==
+
+policy-map INSIDE_POLICY
+ class CM_ICMP
+  inspect icmp
+
+class-map CM_ICMP
+ match access-list ICMP
+
+access-list ICMP extended permit icmp any any
+
+service-policy INSIDE_POICY interface INSIDE
+
+========================================================
+

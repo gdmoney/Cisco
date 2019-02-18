@@ -1,0 +1,104 @@
+7304
+----
+boot system flash bootdisk:c7300-k91p-mz.122-33.SB3.bin	(internal flash)
+boot system flash disk0:c7300-k91p-mz.122-33.SB3.bin	(external flash)
+-- Configuration register is 0x2102 --
+
+
+3745/3825/2821
+--------------
+boot system flash:c3745-jk9o3s-mz.123-26.bin
+-- Configuration register is 0x2102 --
+
+
+2651XM
+------
+boot system flash c2600-entbasek9-mz.124-15.T8.bin
+-- Configuration register is 0x2102 --
+
+
+6509/6513
+---------
+SUP2
+clear boot system all
+set boot system flash bootflash:cat6000-sup2k9.8-6-4.bin
+set boot sync now
+rommon upgrade bootflash:cat6000-sup2-rm2.7-1-1.srec
+-- Configuration register is 0x2 --
+
+MSFC2
+-----
+copy sup-slot0:c6msfc2-pk2sv-mz.121-27b.E4.bin bootflash:
+boot system flash bootflash:c6msfc2-pk2sv-mz.121-27b.E4.bin
+boot bootldr bootflash:c6msfc2-boot-mz.121-3a.E4
+-- Configuration register is 0x2102 --
+
+NATIVE
+------
+copy disk0:c6sup22-jk2o3sv-mz.121-27b.E4.bin sup-bootflash:
+copy sup-bootflash:c6sup22-jk2o3sv-mz.121-27b.E4.bin slavesup-bootflash:
+boot system flash sup-bootflash:c6sup22-jk2o3sv-mz.121-27b.E4.bin
+-- Configuration register is 0x2102 --
+
+copy tftp: sup-bootdisk:
+copy sup-bootdisk:s72033-adventerprisek9_wan-mz.122-33.sxj5.bin slavesup-bootdisk:
+boot system flash sup-bootdisk:s72033-adventerprisek9_wan-mz.122-33.sxj5.bin
+-- Configuration register is 0x2102 --
+
+
+4507
+----
+copy tftp bootflash:
+copy bootflash:cat4500-ipbasek9-mz.150-2.SG7.bin slavebootflash:
+boot system flash bootflash:cat4500-ipbasek9-mz.150-2.SG7.bin
+redundancy reload shelf
+-- Configuration register is 0x2102 --
+
+
+4006
+----
+clear boot system all
+set boot system flash bootflash:cat4000-k9.8-4-9-GLX.bin
+-- Configuration register is 0x2 --
+
+
+3750
+----
+copy tftp: flash:
+
+copy flash:/c3750-ipservicesk9-mz.122-55.SE8.bin flash2:
+boot system switch all flash:/c3750-ipservicesk9-mz.122-55.SE8.bin
+
+copy flash:/c3750-ipservicesk9-mz.150-2.SE6.bin flash2:
+boot system switch all flash:/c3750-ipservicesk9-mz.150-2.SE6.bin
+
+copy flash:/c3750e-universalk9-mz.150-2.SE6.bin flash2:
+boot system switch all flash:/c3750e-universalk9-mz.150-2.SE6.bin
+
+-- Configuration register is 0xF --
+
+
+3550/2960/2950/2940
+-------------------
+delete /force /recursive flash:c2940-i6q4l2-mz.121-22.EA8
+boot system flash:c2960-lanbasek9-mz.122-46.SE.bin
+-- Configuration register is 0x10F -- (3550)
+-- Configuration register is 0xF   -- (2960,2950,2940)
+
+
+4006
+----
+rommon 1 > set interface me1 1.1.1.3 255.255.255.0
+rommon 2 > set ip route default 1.1.1.1
+rommon 3 > Tftpserver=1.1.1.2
+rommon 4 > boot cat4000-k8.8-4-1-GLX.bin
+
+
+2621
+----
+rommon 1 > IP_ADDRESS=198.184.38.254
+rommon 2 > IP_SUBNET_MASK=255.255.255.0
+rommon 3 > DEFAULT_GATEWAY=198.184.38.1
+rommon 4 > TFTP_SERVER=198.184.38.250
+rommon 5 > TFTP_FILE=c2600-is-mz.122-27.bin
+rommon 6 > tftpdnld

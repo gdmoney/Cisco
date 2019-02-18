@@ -1,0 +1,54 @@
+Failover
+--------
+no failover active						// failover from active to standby
+failover reload-standby						// reload standby from active
+failover exec standby ...					// execute command on standby from active
+
+
+
+Show
+----
+show conn [detail]
+show xlate [debug]
+show nat
+show resource usage
+show crypto key mypubkey rsa
+show service-policy
+show vpn-sessiondb [anyconnect filter name USERNAME]		// show VPN tunnels
+
+
+
+Clear
+-----
+clear access-list TEST counters
+clear xlate
+clear nat counters
+clear local-host all
+clear interface							// clear interface counters
+clear crypto isakmp sa 						// clear IKE SAs
+clear crypto ipsec sa						// clear IPSec SA
+
+
+
+Misc
+----
+prompt hostname priority state
+
+terminal pager 0
+
+logging debug-trace
+
+aaa authentication telnet/ssh/http console LOCAL
+
+same-sacurity-traffic permit
+
+debug icmp trace
+
+tftp-server ZONENAME x.x.x.x FILENAME.cfg			// define TFTP server and config file
+write net x.x.x.x://FILENAME.cfg				// copy config file to TFTP server
+
+
+
+
+
+
