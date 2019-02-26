@@ -6,7 +6,7 @@ Catalyst 9300
 2. Inventory > General > New token
 3. license smart register idtoken NDcyNmQ4ZDYtZDRmNi00Y2U5LWFiYzctYjQ2OGI1OGYyYzUyLTE1NTI2Nzc0%0AMDgxNzl8SGtaOGNrUTBYYldBRnJsRy9xWE9vRDM0RzRXaFlPZlZzcUZUMUJs%0ARGdLQT0%3D%0A
 4. ip http client source-interface ... (optional)
-5.
+5. // if not already configured by default
 service call-home
 call-home
  contact-email-address email-address
