@@ -1,6 +1,6 @@
 Catalyst 9300
 =============
-// switches periodically communicate with the licensing server so DNS config needs stay
+// switches periodically communicate with the licensing server so it needs DNS config
 
 1. software.license.com > Smart Software Licensing
 2. Inventory > General > New token
