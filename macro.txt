@@ -1,0 +1,176 @@
+distro switches
+---------------
+
+shell trigger CISCO_ACC_SWT CISCO_ACC_SWT
+shell trigger CISCO_AP CISCO_AP
+shell trigger CISCO_LAST_RESORT_EVENT CISCO_LAST_RESORT_EVENT
+
+
+macro auto execute CISCO_ACC_SWT  {
+ if [[ $LINKUP == YES ]]
+  then conf t
+  default interface $INTERFACE
+  interface $INTERFACE
+  macro description $TRIGGER
+  description Trunk_AccessSwitch
+  switchport trunk native vlan 999
+  switchport trunk allowed vlan 100,112,120,180-182,200-204,280,999
+  switchport mode trunk
+  cdp enable
+  exit    
+  end     
+ fi       
+ if [[ $LINKUP == NO ]]
+  then conf t
+  default interface $INTERFACE
+  interface $INTERFACE
+  no macro description
+  switchport access vlan 120
+  switchport mode access
+  cdp enable
+  switchport port-security maximum 5
+  switchport port-security
+  switchport port-security aging time 2
+  switchport port-security aging type inactivity
+  switchport port-security violation restrict
+  no shut  
+  exit    
+  end     
+ fi       
+}
+
+macro auto execute CISCO_AP  {
+ if [[ $LINKUP == YES ]]
+  then conf t
+  default interface $INTERFACE
+  interface $INTERFACE
+  macro description $TRIGGER
+  switchport access vlan 181
+  switchport mode access
+  spanning-tree portfast
+  spanning-tree bpduguard enable
+  load-interval 30 
+  cdp enable
+  exit    
+  end     
+ fi       
+ if [[ $LINKUP == NO ]]
+  then conf t
+  default interface $INTERFACE
+  interface $INTERFACE
+  no macro description
+  description STUB Port
+  switchport access vlan 120
+  switchport mode access
+  cdp enable
+  switchport port-security maximum 5
+  switchport port-security
+  switchport port-security aging time 2
+  switchport port-security aging type inactivity
+  switchport port-security violation restrict
+  spanning-tree bpduguard enable
+  spanning-tree portfast
+  no shut
+  exit    
+  end     
+ fi       
+} 
+         
+macro auto execute CISCO_LAST_RESORT_EVENT  {
+ if [[ $LINKUP == YES ]]
+  then conf t
+  interface $INTERFACE
+  macro description $TRIGGER
+  exit    
+  end     
+ fi       
+ if [[ $LINKUP == NO ]]
+  then conf t
+  default interface $INTERFACE
+  interface $INTERFACE
+  no macro description
+  description STUB Port
+  switchport access vlan 120
+  switchport mode access
+  cdp enable
+  switchport port-security maximum 5
+  switchport port-security
+  switchport port-security aging time 2
+  switchport port-security aging type inactivity
+  switchport port-security violation restrict
+  spanning-tree bpduguard enable
+  spanning-tree portfast
+  no shut  
+  exit    
+  end     
+ fi       
+}         
+
+
+macro auto trigger CISCO_ACC_SWT
+ device cisco WS-C3560CG-8PC-S
+!
+macro auto trigger CISCO_AP
+ device cisco AIR-CAP3702E-A-K9
+ device cisco AIR-CAP3702E-B-K9
+!
+macro auto trigger CISCO_LAST_RESORT_EVENT
+
+
+macro auto global processing 
+
+
+macro auto device media-player   ACCESS_VLAN=800
+macro auto device ip-camera      ACCESS_VLAN=800
+macro auto device phone          ACCESS_VLAN=800 VOICE_VLAN=1
+macro auto device router         NATIVE_VLAN=800
+macro auto device switch         NATIVE_VLAN=800
+macro auto device access-point   NATIVE_VLAN=800
+macro auto device lightweight-ap ACCESS_VLAN=800
+
+============================================================
+
+// interface down
+
+event-distswt02#sh run int gig 1/0/43
+Building configuration...
+
+Current configuration : 309 bytes
+!
+interface GigabitEthernet1/0/43
+ description STUB Port
+ switchport access vlan 120
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security violation  restrict
+ switchport port-security aging time 2
+ switchport port-security aging type inactivity
+ switchport port-security
+
+
+
+// interface up - 3560 switch
+
+interface GigabitEthernet1/0/43
+ description event-broadcast-swt-01.intuit.com:GigabitEthernet0/9
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 100,112,120,180-182,200-204,280,999
+ switchport mode trunk
+ macro description CISCO_ACC_SWT
+
+
+
+// interface up - AP
+
+interface GigabitEthernet1/0/42
+ description AP28:GigabitEthernet0
+ switchport access vlan 181
+ switchport mode access
+ load-interval 30
+ macro description CISCO_AP
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+
+
+// interface up - other
+
