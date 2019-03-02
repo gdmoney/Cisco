@@ -1,6 +1,5 @@
 Switch
 ======
-
 interface GigabitEthernet 2/24
  switchport
  switchport trunk allowed vlan 111
@@ -11,10 +10,8 @@ interface Vlan 111
 
 
 
-
 Router
 ======
-
 interface GigabitEthernet 0/0
  no ip address
  duplex auto
@@ -23,8 +20,6 @@ interface GigabitEthernet 0/0
 interface GigabitEthernet 0/0.111
  encapsulation dot1Q 111
  ip address 1.1.1.1 255.255.255.252
-
-
 
 
 
