@@ -5,7 +5,6 @@
 
 Switch 1
 --------
-
 switch virtual domain 100
  switch 1
  switch 1 priority 200
@@ -29,7 +28,6 @@ interface range TenGigabit 5/4 - 5
 
 Switch 2
 --------
-
 switch virtual domain 100
  switch 2
  switch 1 priority 200
@@ -53,7 +51,6 @@ interface range TenGigabit 5/4 - 5
 
 VSS
 ---
-
 switch virtual domain 100
  mac-address use-virtual
 
