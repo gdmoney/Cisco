@@ -1,4 +1,3 @@
-
 TCP/IP
 ------
 show ip sockets								// all open ports
@@ -42,7 +41,6 @@ show ip wccp interfaces
 show ip wccp 91 clients							// see WCCP client IPs and packet count
 
 
-
 SNMP
 ----
 show snmp mib ifmib ifindex
@@ -54,13 +52,3 @@ service unsupported-transceiver
 show hw-module subslot 0/2 transceiver 0 status 			// optical signal levels
 show outage-rescued
 show policy-firewall sessions platform v4-source-address x.x.x.x	// sessions on ZBFW
-
-
-License
--------
-show license udi
-show license feature
-license install flash:FOC16477115_201302120900069210.lic
-license boot module c3900e technology-package securityk9
-license boot level appxk9
-reboot
