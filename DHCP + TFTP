@@ -7,7 +7,7 @@ ip dhcp excluded-address 192.168.255.1 192.168.255.20
 ip dhcp pool Net_Mgmt
  network 192.168.255.0 255.255.255.0
  bootfile config_SWITCH_Desktop                                   // config file that will be loaded on the DHCP client
- next-server 192.168.255.1                                        // TFTP server, in this case the switch VLAN-1 int
+ next-server 192.168.255.1                                        // specify TFTP server, in this case the switch's VLAN 1 int
  default-router 192.168.255.1 
  dns-server 8.8.8.8 8.8.4.4 
  domain-name event.tech
