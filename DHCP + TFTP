@@ -1,0 +1,24 @@
+interface Vlan1
+ description Net_Mgmt
+ ip address 192.168.255.1 255.255.255.0
+ 
+ip dhcp excluded-address 192.168.255.1 192.168.255.20
+
+ip dhcp pool Net_Mgmt
+ network 192.168.255.0 255.255.255.0
+ bootfile config_SWITCH_Desktop                                   // config file that will be loaded on the DHCP client
+ next-server 192.168.255.1                                        // TFTP server, in this case the switch VLAN-1 int
+ default-router 192.168.255.1 
+ dns-server 8.8.8.8 8.8.4.4 
+ domain-name event.tech
+ lease 0 2
+ 
+ip tftp source-interface Vlan1
+tftp-server flash:config_SWITCH_Desktop                           // configure switch as the TFTP server
+
+
+dir flash:
+Directory of flash:/
+303126  -rw-  2032   Feb 5 2020 09:37:45 -08:00  config_SWITCH_Desktop
+
+more flash:config_SWITCH_Desktop                                  // view file
