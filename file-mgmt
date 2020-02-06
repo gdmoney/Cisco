@@ -1,9 +1,9 @@
 tclsh
-puts [open "flash:testfile" w+] {
+puts [open "flash:config-switch-desktop" w+] {
 blahblahblah
 blahblahblah
 blahblahblah
 }
 tclquit
 
-more flash:testfile
+more flash:config-switch-desktop
