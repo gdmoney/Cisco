@@ -1,9 +1,9 @@
 tclsh
-puts [open "flash:FILENAME" w+] {
+puts [open "flash:testfile" w+] {
 blahblahblah
 blahblahblah
 blahblahblah
 }
 tclquit
 
-more flash:FILENAME
+more flash:testfile
