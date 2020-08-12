@@ -18,7 +18,7 @@ call-home
   no destination transport-method email
 
 
-// use the DNA Advantage license
+// apply the DNA Advantage license
 config t
 license boot level network-advantage addon dna-advantage
 wr
