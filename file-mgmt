@@ -22,3 +22,4 @@ tclquit
 
 # view file contents
 more flash:config-switch-desktop
+more nvram:startup-config
