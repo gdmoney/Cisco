@@ -1,4 +1,4 @@
-// create a file
+# create a file
 tclsh
 puts [open "flash:config-switch-desktop" w+] {
 blahblahblah
@@ -7,5 +7,18 @@ blahblahblah
 }
 tclquit
 
-// view file contents
+# erase startup config and then configure mgmt int only
+tclsh
+puts [open "nvram:startup-config" w+] {
+interface GigabitEthernet0
+ vrf forwarding Mgmt-intf
+ ip address 172.29.67.110 255.255.255.224
+ negotiation auto
+!
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 172.29.67.126
+}
+tclquit
+
+
+# view file contents
 more flash:config-switch-desktop
