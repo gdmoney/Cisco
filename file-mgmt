@@ -7,7 +7,8 @@ blahblahblah
 }
 tclquit
 
-# erase startup config and then configure mgmt int only
+
+# erase startup config and then modify it to configure mgmt int only
 tclsh
 puts [open "nvram:startup-config" w+] {
 interface GigabitEthernet0
