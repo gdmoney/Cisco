@@ -25,6 +25,7 @@ wr
 reload
 
 
+show call-home
 show license status
 show license summary
 
