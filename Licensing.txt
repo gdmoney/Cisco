@@ -13,8 +13,8 @@ call-home
  contact-email-address email-address
  profile CiscoTAC-1
   active
+  anonymous-reporting-only
   destination transport-method http
-  destination address http  https://tools.cisco.com/its/service/oddce/services/DDCEService
   no destination transport-method email
 
 
