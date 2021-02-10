@@ -61,6 +61,7 @@ show license right-to-use [detail]
 )#license boot level appxk9						activate appxk9 feature on a 44xx
 )#license boot module c3900 technology-package securityk9		activate security feature on a 39xx
 )#license feature ...							enable a license feature
+)#platform hardware throughput level <level_in_bps>           change to what the 'throughput' license allows
 
 
 #license right-to-use move ...						move a RTU license to permanent mode
