@@ -54,8 +54,12 @@ License Usage:
 
 Routers
 =======
-show license feature
-show license right-to-use [detail]
+// to convert from conventional to smart licensing, takes up to an hour
+
+license smart register idtoken <TOKEN>
+license smart conversion start
+
+show license summary
 
 
 )#license boot level appxk9						activate appxk9 feature on a 44xx
