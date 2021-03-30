@@ -4,8 +4,9 @@ Catalyst 9300
 
 1. software.cisco.com
 2. Smart Software Licensing > Inventory > General > New token
-3. license smart register idtoken NDcyNmQ4ZDYtZDRmNi00Y2U5LWFiYzctYjQ2OGI1OGYyYzUyLTE1NTI2Nzc0%0AMDgxNzl8SGtaOGNrUTBYYldBRnJsRy9xWE9vRDM0RzRXaFlPZlZzcUZUMUJs%0ARGdLQT0%3D%0A
-4. ip http client source-interface ... (optional)
+3. license smart register idtoken <TOKEN>
+4. ip http client source-interface <INT> (optional)
+5. ip domain lookup source-interface <INT> (optional)
 
 service call-home
 call-home
@@ -24,9 +25,9 @@ wr
 reload
 
 
-show call-home
 show license status
 show license summary
+show call-home
   
 
 
