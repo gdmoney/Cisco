@@ -1,7 +1,5 @@
 Catalyst 9300
 =============
-// switches periodically communicate with the licensing server so it needs DNS config
-
 1. software.cisco.com
 2. Smart Software Licensing > Inventory > General > New token
 3. license smart register idtoken <TOKEN>
