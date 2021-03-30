@@ -54,19 +54,20 @@ License Usage:
 
 Routers
 =======
-// to convert from conventional to smart licensing, takes up to an hour
+// to convert from traditional to smart licensing, takes up to an hour
 
 license smart register idtoken <TOKEN>
 license smart conversion start
 
 show license summary
 
-
-)#license boot level appxk9						activate appxk9 feature on a 44xx
-)#license boot module c3900 technology-package securityk9		activate security feature on a 39xx
 )#license feature ...							enable a license feature
 )#platform hardware throughput level <level_in_bps>                     change to what the 'throughput' license allows
 
+
+// old
+)#license boot level appxk9						activate appxk9 feature on a 44xx
+)#license boot module c3900 technology-package securityk9		activate security feature on a 39xx
 
 #license right-to-use move ...						move a RTU license to permanent mode
 #license right-to-use activate ...
