@@ -27,28 +27,6 @@ reload
 show call-home
 show license status
 show license summary
-
-SWITCH_ACCESS_1#sh license summary 
-Smart Licensing is ENABLED
-
-Registration:
-  Status: REGISTERED
-  Smart Account: Intuit
-  Virtual Account: DEFAULT
-  Export-Controlled Functionality: Allowed
-  Last Renewal Attempt: SUCCEEDED
-  Next Renewal Attempt: Jan 31 09:43:01 2021 PDT
-
-License Authorization: 
-  Status: AUTHORIZED
-  Last Communication Attempt: SUCCEEDED
-  Next Communication Attempt: Sep 09 09:08:50 2020 PDT
-
-License Usage:
-  License                 Entitlement tag               Count Status
-  -----------------------------------------------------------------------------
-  C9300 48P DNA Essent... (C9300-48 DNA Essentials)         1 AUTHORIZED
-  C9300 48P NW Essentials (C9300-48 Network Essen...)       1 AUTHORIZED
   
 
 
