@@ -9,7 +9,7 @@ Catalyst 9300
 service call-home
 call-home
  contact-email-address email-address
- profile CiscoTAC-1
+ profile "CiscoTAC-1"
   active
   anonymous-reporting-only
   destination transport-method http
