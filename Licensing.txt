@@ -26,6 +26,7 @@ reload
 show license status
 show license summary
 show call-home
+show call-home profile all
   
 
 
