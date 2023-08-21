@@ -1,3 +1,13 @@
+C8300 17.3.4
+============
+license smart trust idtoken <TOKEN> local force
+
+license feature hseck9
+license boot level network-advantage addon dna-advantage
+license smart transport callhome
+
+
+
 Catalyst 9300
 =============
 1. software.cisco.com
